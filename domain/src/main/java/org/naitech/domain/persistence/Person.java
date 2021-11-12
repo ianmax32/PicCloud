@@ -86,14 +86,14 @@ public class Person {
         this.password = password;
     }
 
-    @Column(name = "User_confirm_password")
+   /* @Column(name = "User_confirm_password")
     public String getConfirmpassword() {
         return confirmpassword;
     }
 
     public void setConfirmpassword(String confirmpassword) {
         this.confirmpassword = confirmpassword;
-    }
+    }*/
 
     @OneToMany(targetEntity = Pictures.class,fetch = FetchType.LAZY, mappedBy = "person")
     public List<Pictures> getUserPictures() {
