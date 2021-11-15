@@ -5,13 +5,17 @@ import org.naitech.domain.persistence.Person;
 import org.naitech.domain.persistence.Pictures;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
 public class PicturesDto {
     private String picName;
-    private String picture;
+    private byte[] picture;
     private PersonDto person;
     private AlbumsDto albums;
     private LocalDate dateuploaded;
+    private String tag;
+    private String location;
+    private String capturedBy;
 
     public PicturesDto() {
     }
@@ -29,16 +33,19 @@ public class PicturesDto {
         }
     }
 
-    public PicturesDto(String picName, String picture, PersonDto person, AlbumsDto albums, LocalDate dateuploaded) {
+    public PicturesDto(String picName, byte[] picture, PersonDto person, AlbumsDto albums, LocalDate dateuploaded, String tag, String location, String capturedBy) {
         this.picName = picName;
         this.picture = picture;
         this.person = person;
         this.albums = albums;
         this.dateuploaded = dateuploaded;
+        this.tag = tag;
+        this.location = location;
+        this.capturedBy = capturedBy;
     }
 
     public Pictures buildPicture(PicturesDto picturesDto){
-        return new Pictures(null,getPicName(),getPicture(),picturesDto.getPerson().buildPerson(picturesDto.getPerson()),getDateuploaded());
+        return new Pictures(null,getPicName(),getPicture(),getTag(),getLocation(),getCapturedBy(),picturesDto.getPerson().buildPerson(picturesDto.getPerson()),getAlbums().buildAlbum(getAlbums()),getDateuploaded());
     }
 
     public String getPicName() {
@@ -49,11 +56,11 @@ public class PicturesDto {
         this.picName = picName;
     }
 
-    public String getPicture() {
+    public byte[] getPicture() {
         return picture;
     }
 
-    public void setPicture(String picture) {
+    public void setPicture(byte[] picture) {
         this.picture = picture;
     }
 
@@ -81,14 +88,41 @@ public class PicturesDto {
         this.dateuploaded = dateuploaded;
     }
 
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getCapturedBy() {
+        return capturedBy;
+    }
+
+    public void setCapturedBy(String capturedBy) {
+        this.capturedBy = capturedBy;
+    }
+
     @Override
     public String toString() {
         return "PicturesDto{" +
                 "picName='" + picName + '\'' +
-                ", picture='" + picture + '\'' +
+                ", picture=" + Arrays.toString(picture) +
                 ", person=" + person +
                 ", albums=" + albums +
                 ", dateuploaded=" + dateuploaded +
+                ", tag='" + tag + '\'' +
+                ", location='" + location + '\'' +
+                ", capturedBy='" + capturedBy + '\'' +
                 '}';
     }
 }

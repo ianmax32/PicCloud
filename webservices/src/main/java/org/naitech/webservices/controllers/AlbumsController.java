@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @RestController
 @RequestMapping("/albums")
 public class AlbumsController {
@@ -28,6 +30,7 @@ public class AlbumsController {
 
     @PutMapping("/add")
     public ResponseEntity<AlbumsDto> addnewAlbum(@RequestBody AlbumsDto picturesDto){
+        picturesDto.setDateCreated(LocalDate.now());
         AlbumsDto picturesDto1 = createNewAlbumLogic.addNewAlbum(picturesDto);
         return new ResponseEntity<>(picturesDto1, HttpStatus.OK);
     }

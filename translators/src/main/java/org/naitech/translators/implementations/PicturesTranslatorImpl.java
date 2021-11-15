@@ -4,6 +4,7 @@ import org.naitech.domain.dtos.PicturesDto;
 import org.naitech.domain.persistence.Albums;
 import org.naitech.domain.persistence.Pictures;
 import org.naitech.repository.persistence.AlbumsRepository;
+import org.naitech.repository.persistence.PersonRepository;
 import org.naitech.repository.persistence.PicturesRepository;
 import org.naitech.translators.PicturesTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,13 @@ import java.util.List;
 public class PicturesTranslatorImpl implements PicturesTranslator {
     private PicturesRepository picturesRepository;
     private AlbumsRepository albumsRepository;
+    private PersonRepository personRepository;
 
     @Autowired
-    public PicturesTranslatorImpl(PicturesRepository picturesRepository,AlbumsRepository albumsRepository) {
+    public PicturesTranslatorImpl(PicturesRepository picturesRepository,AlbumsRepository albumsRepository, PersonRepository a) {
         this.picturesRepository = picturesRepository;
         this.albumsRepository = albumsRepository;
+        this.personRepository = a;
     }
 
     @Override
@@ -71,9 +74,9 @@ public class PicturesTranslatorImpl implements PicturesTranslator {
     @Override
     public PicturesDto addPicture(PicturesDto picturesDto) {
         Pictures pictures = picturesDto.buildPicture(picturesDto);
+
         try {
-            pictures = picturesRepository.save(pictures);
-            picturesRepository.delete(pictures);
+            pictures = picturesRepository.saveAndFlush(pictures);
         }catch (Exception e){
             throw new RuntimeException("Cannot add new picture to the db",e);
         }

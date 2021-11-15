@@ -2,6 +2,7 @@ package org.naitech.domain.persistence;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Objects;
 
 @Table
@@ -9,7 +10,10 @@ import java.util.Objects;
 public class Pictures {
     private Long id;
     private String picName;
-    private String picture;
+    private byte[] picture;
+    private String tag;
+    private String location;
+    private String capturedBy;
     private Person person;
     private Albums albums;
     private LocalDate dateuploaded;
@@ -17,16 +21,30 @@ public class Pictures {
     public Pictures() {
     }
 
-    public Pictures(Long id, String picName, String picture, Person person, LocalDate dateuploaded) {
+    public Pictures(Long id, String picName, byte[] picture, String tag, String location, String capturedBy, LocalDate dateuploaded) {
         this.id = id;
         this.picName = picName;
         this.picture = picture;
+        this.tag = tag;
+        this.location = location;
+        this.capturedBy = capturedBy;
+        this.dateuploaded = dateuploaded;
+    }
+
+    public Pictures(Long id, String picName, byte[] picture, String tag, String location, String capturedBy, Person person, Albums albums, LocalDate dateuploaded) {
+        this.id = id;
+        this.picName = picName;
+        this.picture = picture;
+        this.tag = tag;
+        this.location = location;
+        this.capturedBy = capturedBy;
         this.person = person;
+        this.albums = albums;
         this.dateuploaded = dateuploaded;
     }
 
     @Id
-    @SequenceGenerator(name="Pic_GENERIC_SEQ",sequenceName = "PicCould_GENERIC_SEQ",allocationSize = 1)
+    @SequenceGenerator(name="Pic_GENERIC_SEQ",sequenceName = "PicCould_GENERIC_SEQP",allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Pic_GENERIC_SEQ")
     @Column(name = "Picture_id")
     public Long getId() {
@@ -48,15 +66,42 @@ public class Pictures {
 
     @Lob
     @Column(name = "Picture")
-    public String getPicture() {
+    public byte[] getPicture() {
         return picture;
     }
 
-    public void setPicture(String picture) {
+    public void setPicture(byte[] picture) {
         this.picture = picture;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "Tag")
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    @Column(name = "Location")
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    @Column(name = "CapturedBy")
+    public String getCapturedBy() {
+        return capturedBy;
+    }
+
+    public void setCapturedBy(String capturedBy) {
+        this.capturedBy = capturedBy;
+    }
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "User_email")
     public Person getPerson() {
         return person;
@@ -89,12 +134,14 @@ public class Pictures {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Pictures pictures = (Pictures) o;
-        return Objects.equals(id, pictures.id) && Objects.equals(picName, pictures.picName) && Objects.equals(picture, pictures.picture) && Objects.equals(person, pictures.person) && Objects.equals(dateuploaded, pictures.dateuploaded);
+        return Objects.equals(id, pictures.id) && Objects.equals(picName, pictures.picName) && Arrays.equals(picture, pictures.picture) && Objects.equals(tag, pictures.tag) && Objects.equals(location, pictures.location) && Objects.equals(capturedBy, pictures.capturedBy) && Objects.equals(person, pictures.person) && Objects.equals(albums, pictures.albums) && Objects.equals(dateuploaded, pictures.dateuploaded);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, picName, picture, person, dateuploaded);
+        int result = Objects.hash(id, picName, tag, location, capturedBy, person, albums, dateuploaded);
+        result = 31 * result + Arrays.hashCode(picture);
+        return result;
     }
 
     @Override
@@ -102,8 +149,12 @@ public class Pictures {
         return "Pictures{" +
                 "id=" + id +
                 ", picName='" + picName + '\'' +
-                ", picture='" + picture + '\'' +
+                ", picture=" + Arrays.toString(picture) +
+                ", tag='" + tag + '\'' +
+                ", location='" + location + '\'' +
+                ", capturedBy='" + capturedBy + '\'' +
                 ", person=" + person +
+                ", albums=" + albums +
                 ", dateuploaded=" + dateuploaded +
                 '}';
     }

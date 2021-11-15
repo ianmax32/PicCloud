@@ -39,7 +39,7 @@ public class Person {
     }
 
     @Id
-    @SequenceGenerator(name="User_GENERIC_SEQ",sequenceName = "PicCould_GENERIC_SEQ",allocationSize = 1)
+    @SequenceGenerator(name="User_GENERIC_SEQ",sequenceName = "PicCould_GENERIC_SEQPe",allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "User_GENERIC_SEQ")
     @Column(name = "user_id")
     public Long getId() {

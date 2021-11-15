@@ -25,7 +25,7 @@ public class Albums {
     }
 
     @Id
-    @SequenceGenerator(name="Alb_GENERIC_SEQ",sequenceName = "PicCould_GENERIC_SEQ",allocationSize = 1)
+    @SequenceGenerator(name="Alb_GENERIC_SEQ",sequenceName = "PicCould_GENERIC_SEQA",allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Alb_GENERIC_SEQ")
     @Column(name = "Album_id")
     public Long getId() {
@@ -59,7 +59,7 @@ public class Albums {
         return dateCreated;
     }
 
-    @OneToMany(targetEntity = Pictures.class, fetch = FetchType.LAZY, mappedBy = "albums")
+    @OneToMany(targetEntity = Pictures.class, mappedBy = "albums" , cascade = CascadeType.ALL)
     public List<Pictures> getPicturesList() {
         return picturesList;
     }

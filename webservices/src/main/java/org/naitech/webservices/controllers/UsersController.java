@@ -41,14 +41,14 @@ public class UsersController {
         return new ResponseEntity<>(allusers, HttpStatus.OK);
     }
 
-    @GetMapping("/user/")
-    public ResponseEntity<PersonDto> getUser(@RequestParam String email){
+    @GetMapping("/get")
+    public ResponseEntity<PersonDto> getUser(@RequestParam("email") String email){
         PersonDto personDto = getUser.getUser(email);
         return new ResponseEntity<>(personDto, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/")
-    public ResponseEntity<Boolean> deleteUser(@RequestParam String email){
+    @DeleteMapping("/delete")
+    public ResponseEntity<Boolean> deleteUser(@RequestParam("email") String email){
         removeUser.deleteUser(email);
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
