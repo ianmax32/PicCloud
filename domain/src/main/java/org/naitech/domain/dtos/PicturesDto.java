@@ -44,8 +44,8 @@ public class PicturesDto {
         this.capturedBy = capturedBy;
     }
 
-    public Pictures buildPicture(PicturesDto picturesDto){
-        return new Pictures(null,getPicName(),getPicture(),getTag(),getLocation(),getCapturedBy(),picturesDto.getPerson().buildPerson(picturesDto.getPerson()),getAlbums().buildAlbum(getAlbums()),getDateuploaded());
+    public Pictures buildPicture(Person per, Albums albums){
+        return new Pictures(null,getPicName(),getPicture(),getTag(),getLocation(),getCapturedBy(),per,albums,getDateuploaded());
     }
 
     public String getPicName() {

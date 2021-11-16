@@ -2,6 +2,7 @@ package org.naitech.translators.implementations;
 
 import org.naitech.domain.dtos.PicturesDto;
 import org.naitech.domain.persistence.Albums;
+import org.naitech.domain.persistence.Person;
 import org.naitech.domain.persistence.Pictures;
 import org.naitech.repository.persistence.AlbumsRepository;
 import org.naitech.repository.persistence.PersonRepository;
@@ -73,10 +74,13 @@ public class PicturesTranslatorImpl implements PicturesTranslator {
 
     @Override
     public PicturesDto addPicture(PicturesDto picturesDto) {
-        Pictures pictures = picturesDto.buildPicture(picturesDto);
+        Person per = personRepository.getUserByEmail(picturesDto.getPerson().getEmail());
+        Albums albums = albumsRepository.findAlbumByName(picturesDto.getAlbums().getAlbumName());
+
+        Pictures pictures = picturesDto.buildPicture(per,albums);
 
         try {
-            pictures = picturesRepository.saveAndFlush(pictures);
+            pictures = picturesRepository.save(pictures);
         }catch (Exception e){
             throw new RuntimeException("Cannot add new picture to the db",e);
         }

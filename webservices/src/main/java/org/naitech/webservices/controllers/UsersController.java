@@ -47,6 +47,12 @@ public class UsersController {
         return new ResponseEntity<>(personDto, HttpStatus.OK);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<PersonDto> loginUser(@RequestParam("email") String email, @RequestParam String password){
+        PersonDto personDto = getUser.getUser(email);
+        return new ResponseEntity<>(personDto, HttpStatus.OK);
+    }
+
     @DeleteMapping("/delete")
     public ResponseEntity<Boolean> deleteUser(@RequestParam("email") String email){
         removeUser.deleteUser(email);
