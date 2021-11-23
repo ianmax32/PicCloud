@@ -19,4 +19,9 @@ public class GetUserLogicImpl implements GetUserLogic {
     public PersonDto getUser(String email) {
         return userTranslator.getUser(email);
     }
+
+    @Override
+    public PersonDto loginUser(String email, String password) {
+        return userTranslator.loginUser(email,password);
+    }
 }

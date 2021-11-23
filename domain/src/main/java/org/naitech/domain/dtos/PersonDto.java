@@ -9,6 +9,7 @@ public class PersonDto {
     private String name;
     private String surname;
     private String email;
+    private String password;
     private List<PicturesDto> userPictures;
 
     public PersonDto() {
@@ -18,18 +19,27 @@ public class PersonDto {
         this.name = person.getName();
         this.surname = person.getSurname();
         this.email = person.getEmail();
-
+        this.password = person.getPassword();
     }
 
-    public PersonDto(String name, String surname, String email, List<PicturesDto> userPictures) {
+    public PersonDto(String name, String surname, String email,String password, List<PicturesDto> userPictures) {
         this.name = name;
         this.surname = surname;
         this.email = email;
+        this.password = password;
         this.userPictures = userPictures;
     }
 
     public Person buildPerson(PersonDto personDto){
-        return new Person(null,personDto.getName(), personDto.getSurname(), personDto.getEmail(),"password","password");
+        return new Person(null,personDto.getName(), personDto.getSurname(), personDto.getEmail(), personDto.getPassword(), personDto.getPassword());
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getName() {

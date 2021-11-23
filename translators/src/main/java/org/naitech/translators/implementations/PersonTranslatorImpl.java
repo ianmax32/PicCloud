@@ -64,4 +64,16 @@ public class PersonTranslatorImpl implements UserTranslator {
             throw new RuntimeException("Error deleting the user with email "+ email +" from the database",e);
         }
     }
+
+    @Override
+    public PersonDto loginUser(String email, String password) {
+        Person user;
+        try {
+            user = personRepository.loginUser(email,password);
+            System.out.println(user.toString());
+        }catch(Exception e){
+            throw new RuntimeException("Error logging in the user with email "+ email +" from the database",e);
+        }
+        return new PersonDto(user);
+    }
 }

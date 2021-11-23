@@ -4,7 +4,10 @@ import org.naitech.domain.dtos.AlbumsDto;
 import org.naitech.domain.dtos.PersonDto;
 import org.naitech.domain.dtos.PicturesDto;
 import org.naitech.domain.persistence.Person;
+import org.naitech.domain.persistence.Pictures;
+import org.naitech.domain.persistence.SharedImages;
 import org.naitech.logic.*;
+import org.naitech.repository.persistence.SharedRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -13,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -20,25 +24,31 @@ import java.util.List;
 
 @RestController
 @RequestMapping("users/pictures")
+@CrossOrigin(origins = "http://localhost:3000")
 public class PicturesController {
     private AddNewPicture addNewPicture;
     private org.naitech.logic.deletePicture deletePicture;
     private GetPicture getPicture;
     private MovePictureToAlbum movePictureToAlbum;
     private GetUserLogic getUserLogic;
+    private GetAllUserPicturesLogic getAllUserPicturesLogic;
     private GetAlbumByNameLogic getAlbumByNameLogic;
 
 
     @Autowired
-    public PicturesController(AddNewPicture addNewPicture, org.naitech.logic.deletePicture deletePicture, GetPicture getPicture, MovePictureToAlbum movePictureToAlbum, GetUserLogic getUserLogic, GetAlbumByNameLogic getAlbumByNameLogic) {
+    public PicturesController(AddNewPicture addNewPicture, org.naitech.logic.deletePicture deletePicture, GetPicture getPicture, MovePictureToAlbum movePictureToAlbum, GetUserLogic getUserLogic, GetAllUserPicturesLogic getAllUserPicturesLogic, GetAlbumByNameLogic getAlbumByNameLogic) {
         this.addNewPicture = addNewPicture;
         this.deletePicture = deletePicture;
         this.getPicture = getPicture;
         this.movePictureToAlbum = movePictureToAlbum;
         this.getUserLogic = getUserLogic;
+        this.getAllUserPicturesLogic = getAllUserPicturesLogic;
         this.getAlbumByNameLogic = getAlbumByNameLogic;
     }
 
+
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<PicturesDto> addnewpic(@RequestParam("ImageName") String imageName
                                                 ,@RequestParam(value = "file", required = false) MultipartFile file,
@@ -83,8 +93,14 @@ public class PicturesController {
         return new ResponseEntity<>(personDto, HttpStatus.OK);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<PicturesDto>> getPics(@RequestParam String email){
+        List<PicturesDto> personDto = getAllUserPicturesLogic.getAllUserPictures(email);
+        return new ResponseEntity<>(personDto, HttpStatus.OK);
+    }
+
     @PostMapping("/all")
-    public ResponseEntity<Boolean> moveToAlbum(@RequestParam String album){
+    public ResponseEntity<Boolean> moveToAlbum(@RequestParam String album) {
         movePictureToAlbum.moveToAlbum(album);
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }

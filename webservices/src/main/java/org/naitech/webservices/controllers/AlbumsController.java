@@ -14,6 +14,7 @@ import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/albums")
+@CrossOrigin(origins = "http://localhost:3000")
 public class AlbumsController {
     private CreateNewAlbumLogic createNewAlbumLogic;
     private DeleteAlbumLogic deleteAlbumLogic;

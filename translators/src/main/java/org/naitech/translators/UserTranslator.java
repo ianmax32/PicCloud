@@ -11,5 +11,5 @@ public interface UserTranslator {
     PersonDto getUser(String email);
     PersonDto addUser(PersonDto personDto);
     void deleteUser(String email);
-
+    PersonDto loginUser(String email, String password);
 }

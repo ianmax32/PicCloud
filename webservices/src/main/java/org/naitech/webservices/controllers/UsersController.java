@@ -15,6 +15,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/users")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UsersController {
     private CreateNewUser createNewUser;
     private GetAllUsersLogic getAllUsers;
@@ -48,9 +49,15 @@ public class UsersController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<PersonDto> loginUser(@RequestParam("email") String email, @RequestParam String password){
-        PersonDto personDto = getUser.getUser(email);
-        return new ResponseEntity<>(personDto, HttpStatus.OK);
+    public ResponseEntity<Boolean> loginUser(@RequestParam("email") String email, @RequestParam String password){
+        boolean result = false;
+        PersonDto personDto = getUser.loginUser(email,password);
+        if(personDto == null){
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }else {
+            result = true;
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete")
